@@ -21,17 +21,8 @@ export default function HomePage() {
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [isCompleted, setIsCompleted] = useState(false);
 
-  const handleAnswer = (value: string) => {
-    setAnswers((prev) => ({
-      ...prev,
-      [questions[currentQuestion].id]: value,
-    }));
-
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion((prev) => prev + 1);
-    } else {
-      setIsCompleted(true);
-    }
+  const handleAnswer = (questionId: number, answer: string) => {
+    setAnswers((prev) => ({ ...prev, [questionId]: answer }));
   };
 
   return (
@@ -144,13 +135,14 @@ export default function HomePage() {
                         transition={{ duration: 0.5 }}
                         style={{ width: '100%', maxWidth: '800px' }}
                       >
-                        <Chat />
+                        <Chat answers={answers} />
                       </motion.div>
                     ) : (
                       <Questions
                         question={questions[currentQuestion]}
                         onAnswer={handleAnswer}
                         progress={(currentQuestion + 1) / questions.length}
+                        onComplete={() => setIsCompleted(true)}
                       />
                     )}
                   </AnimatePresence>

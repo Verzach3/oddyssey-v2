@@ -4,28 +4,25 @@ export interface Question {
   answers: { label: string; value: string }[];
 }
 
+const minBudget = 895000;
+const maxBudget = 15749900;
+
+const budgetSteps = 5; // Number of budget options
+const budgetIncrement = (maxBudget - minBudget) / budgetSteps;
+
 export const questions: Question[] = [
   {
-    id: 1,
-    title: "¿Cuál es tu nivel de experiencia?",
-    answers: [
-      { label: "Principiante", value: "1" },
-      { label: "Intermedio", value: "2" },
-      { label: "Avanzado", value: "3" },
-      { label: "Experto", value: "4" },
-      { label: "Profesional", value: "5" },
-    ],
+    id: 1001,
+    title: "Cual es tu presupuesto?",
+    answers: Array.from({ length: budgetSteps }, (_, i) => {
+      const min = Math.round(minBudget + i * budgetIncrement);
+      const max = Math.round(minBudget + (i + 1) * budgetIncrement);
+      return {
+        label: `Entre ${min.toLocaleString()} y ${max.toLocaleString()}`,
+        value: `${min}-${max}`,
+      };
+    }),
   },
-  {
-    id: 2,
-    title: "¿Para qué usarás principalmente el portátil?",
-    answers: [
-      { label: "Trabajo de oficina", value: "office" },
-      { label: "Diseño gráfico", value: "design" },
-      { label: "Programación", value: "dev" },
-      { label: "Gaming", value: "gaming" },
-      { label: "Uso general", value: "general" },
-    ],
-  },
+
   // Add more questions as needed
 ];
